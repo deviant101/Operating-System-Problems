@@ -7,12 +7,13 @@
 
 int loadDictionary(char *filename, char dictionary[][MAX_WORD_LENGTH]);
 void checkSpelling(char *shm_ptr, int *numWords, char dictionary[][MAX_WORD_LENGTH]);
+void strcat(char *str, char dest[100]);
 
 int main() {
 
-    // Read the dictionary file into memory
+    // Reading dictionary file into memory
     char dictionary[10000][MAX_WORD_LENGTH];
-    char fileName[]= "dictionary.txt";
+    char fileName[] = "dictionary.txt";
     int numWords = loadDictionary(fileName, dictionary);
 
     key_t key=221669;
@@ -56,12 +57,12 @@ int loadDictionary(char *filename, char dictionary[][MAX_WORD_LENGTH]){
 
 void checkSpelling(char *shm_ptr, int *numWords, char dictionary[][MAX_WORD_LENGTH]){
 
-    // Get string from shared memory
+    // Reading from shared memory
     char inputString[100];
     strcpy(inputString, shm_ptr);
-    // printf("\n\nFROM REPLACED CHILD: %s\n\n",inputString);
+    char str[100];
 
-    // Split the string into individual words
+    // Spliting the string words
     char *word = strtok(inputString, " \n");
     while (word != NULL) {
         // Check if the word is in the dictionary
@@ -73,12 +74,20 @@ void checkSpelling(char *shm_ptr, int *numWords, char dictionary[][MAX_WORD_LENG
             }
         }
 
-        // Print the result
-        if (found){
-            // printf("Sending to shared memory\n");
-            sprintf(shm_ptr, word);
-        }
-        // Get the next word
-        word = strtok(NULL, " \n");
+        if (!found)
+            strcat(word,str);
+        word = strtok(NULL, " \n");     //next word
     }
+    sprintf(shm_ptr, str);
+}
+
+void strcat(char *str, char dest[100]){
+    int index = 0;
+    static int dest_index=0;
+    while(str[index] != '\0'){
+        dest[dest_index] = str[index];
+        index++;
+        dest_index++;
+    }
+    dest[dest_index++] = ' ';
 }
