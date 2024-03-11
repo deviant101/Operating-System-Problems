@@ -1,35 +1,35 @@
 #include <stdio.h>
 
 // declared global enum for opcodes
-typedef enum {
+typedef enum{
     ADD,
     SUB,
     MUL,
     DIV,
     MOD,
-} OpCode;
+}OpCode;
 
 // instruction structure
-typedef struct {
+typedef struct{
     OpCode op;
     int operand1;
     int operand2;
     int result;
-} Instruction;
+}Instruction;
 
 // Function prototypes
 void FetchDecodeExecute(Instruction* program, int* pc);
 void printInstruction(Instruction instr);
 
-int main() {
-    // Define program memory
+int main(){
+    // Array of instructions
     int size=5;
     Instruction program[5] = {
-        {ADD, 1, 2, 0},    // ADD 1, 2
-        {SUB, 3, 4, 0},    // SUB 3, 4
-        {MUL, 5, 6, 0},   // MULT 5, 6
-        {DIV, 7, 8, 0},   // DIV 7, 8
-        {MOD, 9, 10, 0},  // MOD 9, 10
+        {ADD, 10, 2, 0},
+        {SUB, 7, 4, 0},
+        {MUL, 3, 6, 0},
+        {DIV, 20, 8, 0},
+        {MOD, 15, 10, 0},
     };
 
     int instr_no = 0;
@@ -83,19 +83,19 @@ void FetchDecodeExecute(Instruction* program, int* pc) {
 // Function to print instruction details
 void printInstruction(const Instruction instr) {
     switch (instr.op) {
-        case ADD:
+        case 0:
             printf("ADD %d, %d\n",instr.operand1,instr.operand2);
             break;
-        case SUB:
+        case 1:
             printf("SUB %d, %d\n",instr.operand1,instr.operand2);
             break;
-        case MUL:
+        case 2:
             printf("MUL %d, %d\n",instr.operand1,instr.operand2);
             break;
-        case DIV:
+        case 3:
             printf("DIV %d, %d\n",instr.operand1,instr.operand2);
             break;
-        case MOD:
+        case 4:
             printf("MOD %d, %d\n",instr.result);
             break;
         default:
